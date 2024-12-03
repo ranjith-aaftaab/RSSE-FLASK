@@ -1,0 +1,16 @@
+<h2>Edit Event</h2>
+<form method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" name="title" value="{{ event.title }}" required>
+    </div>
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control" name="description" rows="4" required>{{ event.description }}</textarea>
+    </div>
+    <div class="form-group">
+        <label for="image">Image</label>
+        <input type="file" class="form-control" name="image">
+    </div>
+    <button type="submit" class="btn btn-success mt-3">Update Event</button>
+</form>

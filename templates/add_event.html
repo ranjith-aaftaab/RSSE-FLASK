@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Manage Events</h2>
+
+        <!-- Add/Edit Event Form -->
+        <form method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="event_id" id="event_id">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" name="title" id="title" required>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" name="description" id="description" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="image" class="form-label">Image</label>
+                <input type="file" class="form-control" name="image" id="image">
+            </div>
+            <button type="submit" name="action" value="add" class="btn btn-success w-100" id="addBtn">Add Event</button>
+            <button type="submit" name="action" value="edit" class="btn btn-primary w-100 mt-2" id="editBtn" style="display: none;">Update Event</button>
+        </form>
+
+        <!-- Event Table -->
+        <table class="table table-bordered mt-5">
+            <thead class="table-light">
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in events %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ event.title }}</td>
+                    <td>{{ event.description }}</td>
+                    <td>
+                        {% if event.image %}
+                        <img src="{{ url_for('static', filename='uploads/' + event.image) }}" alt="Image" style="width: 50px; height: 50px; object-fit: cover;">
+                        {% else %}
+                        No Image
+                        {% endif %}
+                    </td>
+                    <td>
+                        <form method="POST" style="display: inline;">
+                            <input type="hidden" name="event_id" value="{{ event.id }}">
+                            <button type="submit" name="action" value="delete" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function editEvent(id, title, description) {
+            document.getElementById('event_id').value = id;
+            document.getElementById('title').value = title;
+            document.getElementById('description').value = description;
+            document.getElementById('addBtn').style.display = 'none';
+            document.getElementById('editBtn').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        .event-card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .event-card:hover {
+            transform: translateY(-5px);
+        }
+        .event-image {
+            height: 200px;
+            object-fit: cover;
+        }
+        .event-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0;
+        }
+        .event-description {
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Upcoming Events</h2>
+
+    <div class="row">
+        {% for event in events %}
+        <div class="col-md-4 mb-4">
+            <div class="card event-card">
+                {% if event.image %}
+                <img src="{{ url_for('static', filename='images/' + event.image) }}" alt="Event Image" class="card-img-top event-image">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title event-title">{{ event.title }}</h5>
+                    <p class="card-text event-description">{{ event.description }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if not events %}
+    <div class="alert alert-info text-center">
+        No events found. Please check back later!
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
